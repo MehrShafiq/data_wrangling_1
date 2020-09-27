@@ -72,3 +72,21 @@ Doing the same with FAS_pups
 select(pups_data, litter_number, sex, pd_ears)
 ```
 
+## Mutate 
+
+```{r}
+mutate(
+  litters_data, 
+  group = str_to_lower(group),
+  wt_gain = gd18_weight - gd0_weight)
+```
+
+```{r}
+mutate(
+  pups_data, 
+  new_pd_pivot = pd_pivot - 7,
+  sum_pd = pd_ears + pd_eyes + pd_pivot + pd_walk
+  )
+```
+
+
