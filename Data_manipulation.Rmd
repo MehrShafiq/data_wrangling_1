@@ -55,3 +55,9 @@ select(litters_data, starts_with("gd"))
 select(litters_data, litter_number, pups_survive, everything())
 ```
 
+Doing the same with FAS_pups
+
+```{r}
+select(pups_data, litter_number, sex, pd_ears)
+```
+

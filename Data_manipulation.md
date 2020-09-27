@@ -5,14 +5,14 @@ Data Manipulation
 library(tidyverse)
 ```
 
-    ## -- Attaching packages ----------------------- tidyverse 1.3.0 --
+    ## -- Attaching packages -------------------------- tidyverse 1.3.0 --
 
     ## v ggplot2 3.3.2     v purrr   0.3.4
     ## v tibble  3.0.3     v dplyr   1.0.2
     ## v tidyr   1.1.2     v stringr 1.4.0
     ## v readr   1.3.1     v forcats 0.5.0
 
-    ## -- Conflicts -------------------------- tidyverse_conflicts() --
+    ## -- Conflicts ----------------------------- tidyverse_conflicts() --
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -172,3 +172,24 @@ select(litters_data, litter_number, pups_survive, everything())
     ## 10 #3/5/2/2/95              8 Con8        28.5        NA            20
     ## # ... with 39 more rows, and 2 more variables: pups_born_alive <int>,
     ## #   pups_dead_birth <int>
+
+Doing the same with FAS\_pups
+
+``` r
+select(pups_data, litter_number, sex, pd_ears)
+```
+
+    ## # A tibble: 313 x 3
+    ##    litter_number   sex pd_ears
+    ##    <chr>         <int>   <int>
+    ##  1 #85               1       4
+    ##  2 #85               1       4
+    ##  3 #1/2/95/2         1       5
+    ##  4 #1/2/95/2         1       5
+    ##  5 #5/5/3/83/3-3     1       5
+    ##  6 #5/5/3/83/3-3     1       5
+    ##  7 #5/4/2/95/2       1      NA
+    ##  8 #4/2/95/3-3       1       4
+    ##  9 #4/2/95/3-3       1       4
+    ## 10 #2/2/95/3-2       1       4
+    ## # ... with 303 more rows
