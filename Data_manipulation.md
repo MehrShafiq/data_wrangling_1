@@ -5,14 +5,14 @@ Data Manipulation
 library(tidyverse)
 ```
 
-    ## -- Attaching packages ----------------------------------------------------------- tidyverse 1.3.0 --
+    ## -- Attaching packages --------- tidyverse 1.3.0 --
 
     ## v ggplot2 3.3.2     v purrr   0.3.4
     ## v tibble  3.0.3     v dplyr   1.0.2
     ## v tidyr   1.1.2     v stringr 1.4.0
     ## v readr   1.3.1     v forcats 0.5.0
 
-    ## -- Conflicts -------------------------------------------------------------- tidyverse_conflicts() --
+    ## -- Conflicts ------------ tidyverse_conflicts() --
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -303,3 +303,72 @@ arrange(litters_data, group, pups_born_alive)
     ## 10 Con8  #3/6/2/2/95-3       NA          NA            20               7
     ## # ... with 39 more rows, and 2 more variables: pups_dead_birth <int>,
     ## #   pups_survive <int>
+
+## %\>%
+
+``` r
+litters_data = 
+  read_csv("./data/FAS_litters.csv", col_types = "ccddiiii") %>%
+  janitor::clean_names() %>%
+  select(-pups_survive) %>%
+  mutate(
+    wt_gain = gd18_weight - gd0_weight,
+    group = str_to_lower(group)) %>% 
+  drop_na(wt_gain)
+
+litters_data
+```
+
+    ## # A tibble: 31 x 8
+    ##    group litter_number gd0_weight gd18_weight gd_of_birth pups_born_alive
+    ##    <chr> <chr>              <dbl>       <dbl>       <int>           <int>
+    ##  1 con7  #85                 19.7        34.7          20               3
+    ##  2 con7  #1/2/95/2           27          42            19               8
+    ##  3 con7  #5/5/3/83/3-3       26          41.4          19               6
+    ##  4 con7  #5/4/2/95/2         28.5        44.1          19               5
+    ##  5 mod7  #59                 17          33.4          19               8
+    ##  6 mod7  #103                21.4        42.1          19               9
+    ##  7 mod7  #3/82/3-2           28          45.9          20               5
+    ##  8 mod7  #5/3/83/5-2         22.6        37            19               5
+    ##  9 mod7  #106                21.7        37.8          20               5
+    ## 10 mod7  #94/2               24.4        42.9          19               7
+    ## # ... with 21 more rows, and 2 more variables: pups_dead_birth <int>,
+    ## #   wt_gain <dbl>
+
+``` r
+pups_data = 
+  read_csv("./data/FAS_pups.csv") %>% 
+          janitor::clean_names()  %>% 
+  filter(sex == 1) %>% 
+  select(-pd_ears) %>% 
+  mutate(pd_pivot_gt7 = pd_pivot > 7)
+```
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   `Litter Number` = col_character(),
+    ##   Sex = col_double(),
+    ##   `PD ears` = col_double(),
+    ##   `PD eyes` = col_double(),
+    ##   `PD pivot` = col_double(),
+    ##   `PD walk` = col_double()
+    ## )
+
+``` r
+pups_data
+```
+
+    ## # A tibble: 155 x 6
+    ##    litter_number   sex pd_eyes pd_pivot pd_walk pd_pivot_gt7
+    ##    <chr>         <dbl>   <dbl>    <dbl>   <dbl> <lgl>       
+    ##  1 #85               1      13        7      11 FALSE       
+    ##  2 #85               1      13        7      12 FALSE       
+    ##  3 #1/2/95/2         1      13        7       9 FALSE       
+    ##  4 #1/2/95/2         1      13        8      10 TRUE        
+    ##  5 #5/5/3/83/3-3     1      13        8      10 TRUE        
+    ##  6 #5/5/3/83/3-3     1      14        6       9 FALSE       
+    ##  7 #5/4/2/95/2       1      14        5       9 FALSE       
+    ##  8 #4/2/95/3-3       1      13        6       8 FALSE       
+    ##  9 #4/2/95/3-3       1      13        7       9 FALSE       
+    ## 10 #2/2/95/3-2       1      NA        8      10 TRUE        
+    ## # ... with 145 more rows

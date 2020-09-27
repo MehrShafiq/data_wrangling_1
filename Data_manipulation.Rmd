@@ -96,3 +96,29 @@ mutate(
 arrange(litters_data, group, pups_born_alive)
 ```
 
+## %>% 
+
+```{r}
+litters_data = 
+  read_csv("./data/FAS_litters.csv", col_types = "ccddiiii") %>%
+  janitor::clean_names() %>%
+  select(-pups_survive) %>%
+  mutate(
+    wt_gain = gd18_weight - gd0_weight,
+    group = str_to_lower(group)) %>% 
+  drop_na(wt_gain)
+
+litters_data
+```
+
+```{r}
+pups_data = 
+  read_csv("./data/FAS_pups.csv") %>% 
+          janitor::clean_names()  %>% 
+  filter(sex == 1) %>% 
+  select(-pd_ears) %>% 
+  mutate(pd_pivot_gt7 = pd_pivot > 7)
+pups_data
+```
+
+
