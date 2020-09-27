@@ -5,14 +5,14 @@ Data Manipulation
 library(tidyverse)
 ```
 
-    ## -- Attaching packages --------------------------- tidyverse 1.3.0 --
+    ## -- Attaching packages ----------------------------------------------------------- tidyverse 1.3.0 --
 
     ## v ggplot2 3.3.2     v purrr   0.3.4
     ## v tibble  3.0.3     v dplyr   1.0.2
     ## v tidyr   1.1.2     v stringr 1.4.0
     ## v readr   1.3.1     v forcats 0.5.0
 
-    ## -- Conflicts ------------------------------ tidyverse_conflicts() --
+    ## -- Conflicts -------------------------------------------------------------- tidyverse_conflicts() --
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -281,3 +281,25 @@ mutate(
     ##  9 #4/2/95/3-3       1       4      13        7       9            0     33
     ## 10 #2/2/95/3-2       1       4      NA        8      10            1     NA
     ## # ... with 303 more rows
+
+## Arrange
+
+``` r
+arrange(litters_data, group, pups_born_alive)
+```
+
+    ## # A tibble: 49 x 8
+    ##    group litter_number gd0_weight gd18_weight gd_of_birth pups_born_alive
+    ##    <chr> <chr>              <dbl>       <dbl>       <int>           <int>
+    ##  1 Con7  #85                 19.7        34.7          20               3
+    ##  2 Con7  #5/4/2/95/2         28.5        44.1          19               5
+    ##  3 Con7  #5/5/3/83/3-3       26          41.4          19               6
+    ##  4 Con7  #4/2/95/3-3         NA          NA            20               6
+    ##  5 Con7  #2/2/95/3-2         NA          NA            20               6
+    ##  6 Con7  #1/2/95/2           27          42            19               8
+    ##  7 Con7  #1/5/3/83/3-~       NA          NA            20               9
+    ##  8 Con8  #2/2/95/2           NA          NA            19               5
+    ##  9 Con8  #1/6/2/2/95-2       NA          NA            20               7
+    ## 10 Con8  #3/6/2/2/95-3       NA          NA            20               7
+    ## # ... with 39 more rows, and 2 more variables: pups_dead_birth <int>,
+    ## #   pups_survive <int>

@@ -90,3 +90,9 @@ mutate(
 ```
 
 
+## Arrange
+
+```{r}
+arrange(litters_data, group, pups_born_alive)
+```
+
