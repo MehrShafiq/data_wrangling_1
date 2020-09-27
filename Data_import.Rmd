@@ -1,21 +1,20 @@
 ---
-title: "Simple document"
-output: html_document
+title: "Data Import"
+output: github_document
 ---
 
-I'm an R Markdown document! 
 
-# Section 1
+```{r Set-up}
+library(tidyverse)
+```
+## Read in some data
 
-Here's a **code chunk** that samples from 
-a _normal distribution_:
+Read in the litters dataset.
 
-```{r}
-samp = rnorm(100)
-length(samp)
+```{r Importing and storing data}
+litters_data = read_csv(file = "./data/FAS_litters.csv")
+litters_data = janitor::clean_names(litters_data)
 ```
 
-# Section 2
+## Take a look at the data
 
-I can take the mean of the sample, too!
-The mean is `r mean(samp)`.
