@@ -18,3 +18,18 @@ litters_data = janitor::clean_names(litters_data)
 
 ## Take a look at the data
 
+Printing in the console
+
+```{r}
+litters_data
+```
+
+```{r}
+tail(litters_data)
+```
+
+```{r}
+skimr::skim(litters_data)
+```
+
+
