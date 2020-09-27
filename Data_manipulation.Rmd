@@ -55,6 +55,17 @@ select(litters_data, starts_with("gd"))
 select(litters_data, litter_number, pups_survive, everything())
 ```
 
+## Filter 
+
+```{r}
+filter(pups_data, sex == 1)
+```
+
+```{r}
+filter(pups_data, sex == 2, pd_walk < 11)
+```
+
+
 Doing the same with FAS_pups
 
 ```{r}

@@ -5,14 +5,14 @@ Data Manipulation
 library(tidyverse)
 ```
 
-    ## -- Attaching packages -------------------------- tidyverse 1.3.0 --
+    ## -- Attaching packages -----------------
 
     ## v ggplot2 3.3.2     v purrr   0.3.4
     ## v tibble  3.0.3     v dplyr   1.0.2
     ## v tidyr   1.1.2     v stringr 1.4.0
     ## v readr   1.3.1     v forcats 0.5.0
 
-    ## -- Conflicts ----------------------------- tidyverse_conflicts() --
+    ## -- Conflicts --------------------------
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -172,6 +172,46 @@ select(litters_data, litter_number, pups_survive, everything())
     ## 10 #3/5/2/2/95              8 Con8        28.5        NA            20
     ## # ... with 39 more rows, and 2 more variables: pups_born_alive <int>,
     ## #   pups_dead_birth <int>
+
+## Filter
+
+``` r
+filter(pups_data, sex == 1)
+```
+
+    ## # A tibble: 155 x 6
+    ##    litter_number   sex pd_ears pd_eyes pd_pivot pd_walk
+    ##    <chr>         <int>   <int>   <int>    <int>   <int>
+    ##  1 #85               1       4      13        7      11
+    ##  2 #85               1       4      13        7      12
+    ##  3 #1/2/95/2         1       5      13        7       9
+    ##  4 #1/2/95/2         1       5      13        8      10
+    ##  5 #5/5/3/83/3-3     1       5      13        8      10
+    ##  6 #5/5/3/83/3-3     1       5      14        6       9
+    ##  7 #5/4/2/95/2       1      NA      14        5       9
+    ##  8 #4/2/95/3-3       1       4      13        6       8
+    ##  9 #4/2/95/3-3       1       4      13        7       9
+    ## 10 #2/2/95/3-2       1       4      NA        8      10
+    ## # ... with 145 more rows
+
+``` r
+filter(pups_data, sex == 2, pd_walk < 11)
+```
+
+    ## # A tibble: 127 x 6
+    ##    litter_number   sex pd_ears pd_eyes pd_pivot pd_walk
+    ##    <chr>         <int>   <int>   <int>    <int>   <int>
+    ##  1 #1/2/95/2         2       4      13        7       9
+    ##  2 #1/2/95/2         2       4      13        7      10
+    ##  3 #1/2/95/2         2       5      13        8      10
+    ##  4 #1/2/95/2         2       5      13        8      10
+    ##  5 #1/2/95/2         2       5      13        6      10
+    ##  6 #5/5/3/83/3-3     2       5      13        8      10
+    ##  7 #5/5/3/83/3-3     2       5      14        7      10
+    ##  8 #5/5/3/83/3-3     2       5      14        8      10
+    ##  9 #5/4/2/95/2       2      NA      14        7      10
+    ## 10 #5/4/2/95/2       2      NA      14        7      10
+    ## # ... with 117 more rows
 
 Doing the same with FAS\_pups
 
