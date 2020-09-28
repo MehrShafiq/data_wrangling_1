@@ -1,18 +1,18 @@
-Tody Data
+Tidy Data
 ================
 
 ``` r
 library(tidyverse)
 ```
 
-    ## -- Attaching packages --------------- tidyverse 1.3.0 --
+    ## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --
 
     ## v ggplot2 3.3.2     v purrr   0.3.4
     ## v tibble  3.0.3     v dplyr   1.0.2
     ## v tidyr   1.1.2     v stringr 1.4.0
     ## v readr   1.3.1     v forcats 0.5.0
 
-    ## -- Conflicts ------------------ tidyverse_conflicts() --
+    ## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -171,3 +171,111 @@ lotr_tidy
     ## 18 return_king     man    male    2459
 
 Joining pups and litter data.
+
+``` r
+pup_data = 
+  read_csv("./data/FAS_pups.csv", col_types = "ciiiii") %>%
+  janitor::clean_names() %>%
+  mutate(sex = recode(sex, `1` = "male", `2` = "female")) 
+
+litter_data = 
+  read_csv("./data/FAS_litters.csv", col_types = "ccddiiii") %>%
+  janitor::clean_names() %>%
+  separate(group, into = c("dose", "day_of_tx"), sep = 3) %>%
+  relocate(litter_number) %>%
+  mutate(
+    wt_gain = gd18_weight - gd0_weight,
+    dose = str_to_lower(dose))
+
+fas_data = 
+  left_join(pup_data, litter_data, by = "litter_number")
+
+fas_data
+```
+
+    ## # A tibble: 313 x 15
+    ##   litter_number sex   pd_ears pd_eyes pd_pivot pd_walk dose  day_of_tx
+    ##   <chr>         <chr>   <int>   <int>    <int>   <int> <chr> <chr>    
+    ## 1 #85           male        4      13        7      11 con   7        
+    ## 2 #85           male        4      13        7      12 con   7        
+    ## 3 #1/2/95/2     male        5      13        7       9 con   7        
+    ## 4 #1/2/95/2     male        5      13        8      10 con   7        
+    ## 5 #5/5/3/83/3-3 male        5      13        8      10 con   7        
+    ## # ... with 308 more rows, and 7 more variables: gd0_weight <dbl>,
+    ## #   gd18_weight <dbl>, gd_of_birth <int>, pups_born_alive <int>,
+    ## #   pups_dead_birth <int>, pups_survive <int>, wt_gain <dbl>
+
+Learning Assessment
+
+``` r
+survey_os = 
+  read_csv("./data_1/surv_os.csv") %>% 
+  janitor::clean_names() %>% 
+  rename(
+    uni = what_is_your_uni, 
+    os = what_operating_system_do_you_use)
+```
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   `What is your UNI?` = col_character(),
+    ##   `What operating system do you use?` = col_character()
+    ## )
+
+``` r
+survey_os
+```
+
+    ## # A tibble: 173 x 2
+    ##   uni         os        
+    ##   <chr>       <chr>     
+    ## 1 student_87  <NA>      
+    ## 2 student_106 Windows 10
+    ## 3 student_66  Mac OS X  
+    ## 4 student_93  Windows 10
+    ## 5 student_99  Mac OS X  
+    ## # ... with 168 more rows
+
+``` r
+survey_pr_git = read_csv("data_1/surv_program_git.csv") %>% 
+  janitor::clean_names() %>% 
+  rename(
+    uni = what_is_your_uni, 
+    degree = what_is_your_degree_program,
+    git = which_most_accurately_describes_your_experience_with_git)
+```
+
+    ## Parsed with column specification:
+    ## cols(
+    ##   `What is your UNI?` = col_character(),
+    ##   `What is your degree program?` = col_character(),
+    ##   `Which most accurately describes your experience with Git?` = col_character()
+    ## )
+
+``` r
+survey_pr_git
+```
+
+    ## # A tibble: 135 x 3
+    ##   uni        degree git                                                         
+    ##   <chr>      <chr>  <chr>                                                       
+    ## 1 student_1~ MS     Pretty smooth: needed some work to connect Git, GitHub, and~
+    ## 2 student_32 MS     Not smooth: I don't like git, I don't like GitHub, and I do~
+    ## 3 <NA>       MPH    Pretty smooth: needed some work to connect Git, GitHub, and~
+    ## 4 student_1~ MPH    Not smooth: I don't like git, I don't like GitHub, and I do~
+    ## 5 student_17 PhD    Pretty smooth: needed some work to connect Git, GitHub, and~
+    ## # ... with 130 more rows
+
+``` r
+left_join(survey_os, survey_pr_git, by = "uni")
+```
+
+    ## # A tibble: 175 x 4
+    ##   uni       os        degree git                                                
+    ##   <chr>     <chr>     <chr>  <chr>                                              
+    ## 1 student_~ <NA>      MS     Pretty smooth: needed some work to connect Git, Gi~
+    ## 2 student_~ Windows ~ Other  Pretty smooth: needed some work to connect Git, Gi~
+    ## 3 student_~ Mac OS X  MPH    Smooth: installation and connection with GitHub wa~
+    ## 4 student_~ Windows ~ MS     Smooth: installation and connection with GitHub wa~
+    ## 5 student_~ Mac OS X  MS     Smooth: installation and connection with GitHub wa~
+    ## # ... with 170 more rows
